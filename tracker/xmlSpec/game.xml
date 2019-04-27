@@ -1,0 +1,129 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<title>The Tracker Framework</title>
+<maxStringSize>50</maxStringSize>
+<collisionStrategy>PerPixel</collisionStrategy>
+
+<numberOfFish1>2</numberOfFish1>
+<numberOfStarfish>2</numberOfStarfish>
+<numberOfTrash>8</numberOfTrash>
+
+
+<frameCapOn>true</frameCapOn>
+<period>17</period>
+
+<maxFrames>300</maxFrames>
+<username>dpaszek</username>
+
+<view>
+  <width>900</width>
+  <height>680</height>
+  <loc x="30" y="30"/>
+</view>
+
+<world>
+  <width>3800</width>
+  <height>1081</height>
+</world>
+
+<back>
+  <file>assets/ocean1.jpg</file>
+  <factor>3</factor>
+  <transparency>false</transparency>
+</back>
+
+<mountains>
+  <file>assets/biome.png</file>
+  <factor>1</factor>
+  <transparency>true</transparency>
+</mountains>
+
+<font name="font">
+  <file>fonts/arial.ttf</file>
+  <size>24</size>
+  <red>255</red>
+  <green>0</green>
+  <blue>0</blue>
+  <alpha>0</alpha>
+</font>
+
+<shark>
+  <file>assets/sharkspriteRight.png</file>
+  <startLoc x="20" y="340"/>
+  <frames>9</frames>
+  <frameInterval>60</frameInterval>
+  <speedX>300</speedX>
+  <speedY>500</speedY>
+  <transparency>true</transparency>
+  <bulletName>Bullet</bulletName>
+  <chunk>
+    <size>16</size>
+    <distance>100</distance>
+  </chunk>
+</shark>
+
+<sharkLeft>
+  <file>assets/sharksprite.png</file>
+  <startLoc x="20" y="340"/>
+  <frames>9</frames>
+  <frameInterval>60</frameInterval>
+  <speedX>300</speedX>
+  <speedY>500</speedY>
+  <transparency>true</transparency>
+</sharkLeft>
+
+<starfish>
+  <file>assets/starfish.png</file>
+  <startLoc x="2000" y="630"/>
+  <speedX>200</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+  <safeDistance>70</safeDistance>
+</starfish>
+
+<fish1>
+  <file>assets/fish.png</file>
+  <startLoc x="2400" y="400"/>
+  <speedX>300</speedX>
+  <speedY>240</speedY>
+  <transparency>true</transparency>
+</fish1>
+
+<trash>
+  <file>assets/trash1.png</file>
+  <startLoc x = "1800" y = "400" />
+  <speedX>199</speedX>
+  <speedY>199</speedY>
+  <safeDistance>150</safeDistance>
+  <transparency>false</transparency>
+  <chunk>
+    <size>16</size>
+    <distance>100</distance>
+  </chunk>
+</trash>
+
+<Bullet>
+  <file>assets/bullet2.png</file>
+  <startLoc x="227" y="240"/>
+  <speed x="300" y="0"/>
+  <speedX>300</speedX>
+  <speedY>0</speedY>
+  <interval>100</interval>
+  <distance>400</distance>
+  <scale>1</scale>
+  <transparency>false</transparency>
+  <frames>1</frames>
+</Bullet>
+
+<hud>
+	<r>255</r>
+	<g>225</g>
+	<b>0</b>
+	<a>255</a>
+	<size>15</size>
+</hud>
+
+
+</GameData>
