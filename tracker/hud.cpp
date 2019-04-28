@@ -1,5 +1,6 @@
 #include <string>
 #include <sstream>
+#include <ctime>
 #include "hud.h"	
 #include "gameData.h"
 #include "renderContext.h"
@@ -44,7 +45,7 @@ hud::hud() :
 	clock(Clock::getInstance())
 {}
 
-void hud::draw(bool enable, int bulletCt, int freeCt) const
+void hud::draw(bool enable, int lives, int sprites) const
 {
 	if(enable == true)
 	{
@@ -71,12 +72,16 @@ void hud::draw(bool enable, int bulletCt, int freeCt) const
   		string msg2l2 = "SPACE Bar - Shoot";
   		writeText(font, msg2l2, 5, 70, col, rend);
   		string msg3 = "P - Pause Game";
-  		writeText(font, msg3, 5, 95, col, rend);
+  		writeText(font, msg3, 5, 90, col, rend);
   		string msg4 = "ESC/q - Quit Game";
-  		writeText(font, msg4, 5, 120, col, rend);
+  		writeText(font, msg4, 5, 110, col, rend);
   		string msg5 = "F1 - Toggle HUD";
-  		writeText(font, msg5, 5, 145, col, rend);
+  		writeText(font, msg5, 5, 130, col, rend);
+  		string msg6 = "G - God Mode";
+  		writeText(font, msg6, 5, 150, col, rend);
   		writeText(font, fps, 5, 170, col, rend);
+  		
+  		
   		
   		SDL_Rect pool;
   		pool.x = 700;
@@ -86,11 +91,11 @@ void hud::draw(bool enable, int bulletCt, int freeCt) const
   		SDL_RenderDrawRect(rend, &pool);
   		
   		std::stringstream strm2;
-  		strm2 << "Bullet List: " << bulletCt;
+  		strm2 << "Sprites Remaining: " << sprites;
   		std::string bCT = strm2.str();
   		
   		std::stringstream strm3;
-  		strm3 << "Pool: " << freeCt;
+  		strm3 << "Player Lives Remaining: " << lives;
   		std::string fCT = strm3.str();
   		
   		writeText(font, bCT, 705, 5, col, rend);

@@ -32,6 +32,9 @@ OBJS = \
 	explodingSprite.o \
 	chunk.o \
 	sound.o \
+	light.o \
+	lights.o \
+	triple.o \
 	main.o
 EXEC = run
 

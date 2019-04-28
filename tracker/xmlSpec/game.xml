@@ -8,7 +8,8 @@
 
 <numberOfFish1>2</numberOfFish1>
 <numberOfStarfish>2</numberOfStarfish>
-<numberOfTrash>8</numberOfTrash>
+<numberOfTrash>12</numberOfTrash>
+<numberOfSmallFish>10</numberOfSmallFish>
 
 
 <frameCapOn>true</frameCapOn>
@@ -91,6 +92,22 @@
   <transparency>true</transparency>
 </fish1>
 
+<smallstarfish>
+  <file>assets/starfish.png</file>
+  <startLoc x="800" y="630"/>
+  <speedX>120</speedX>
+  <speedY>100</speedY>
+  <transparency>true</transparency>
+</smallstarfish>
+
+<smallfish1>
+  <file>assets/fish.png</file>
+  <startLoc x="1200" y="400"/>
+  <speedX>-100</speedX>
+  <speedY>170</speedY>
+  <transparency>true</transparency>
+</smallfish1>
+
 <trash>
   <file>assets/trash1.png</file>
   <startLoc x = "1800" y = "400" />
@@ -124,6 +141,17 @@
 	<a>255</a>
 	<size>15</size>
 </hud>
+
+<numberOfLights>1</numberOfLights>
+<lightSpec lightX1="100" lightY1="100" lightZ1="100" />
+<!-- larger noneffectiveLighting the smaller the radius of the light -->
+<noneffectiveLighting>100000</noneffectiveLighting>
+<ambientLighting>10000</ambientLighting>
+<brightness>30000000</brightness>
+<diffuseGrid>
+   <x>6</x>
+   <y>6</y>
+</diffuseGrid>
 
 
 </GameData>

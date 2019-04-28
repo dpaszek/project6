@@ -15,7 +15,7 @@ void Player::advanceFrame(Uint32 ticks) {
 
 Player::~Player(){
 	delete collisionStrategy;
-	delete explosion;
+	if(explosion) delete explosion;
 }
 
 Player::Player( const std::string& name) :
@@ -41,7 +41,8 @@ Player::Player( const std::string& name) :
   bulletInterval(Gamedata::getInstance().getXmlInt(bulletName+"/interval")),
   timeSinceLastBullet(0),
   bulletSpeed(Gamedata::getInstance().getXmlInt(bulletName+"/speedX")),
-  bullets(bulletName)
+  bullets(bulletName),
+  collisions(0)
 { }
 
 Player::Player(const Player& s) :
@@ -62,7 +63,8 @@ Player::Player(const Player& s) :
   bulletInterval(s.bulletInterval),
   timeSinceLastBullet(s.timeSinceLastBullet),
   bulletSpeed(s.bulletSpeed),
-  bullets(s.bullets)
+  bullets(s.bullets),
+  collisions(s.collisions)
 { }
 
 /*Player& Player::operator=(const Player& s) {
@@ -91,9 +93,15 @@ void Player::draw() const {
     explosion->draw();
     return;
   }
-  
-  images[currentFrame]->draw(getX(), getY(), getScale());
-  bullets.draw();
+  else if(explosionDone() && collisions == 2)
+  {
+  	return;
+  }
+  else
+  {
+    images[currentFrame]->draw(getX(), getY(), getScale());
+    bullets.draw();
+  }
 }
 
 bool Player::shot(const Drawable* obj ) {
@@ -102,7 +110,9 @@ bool Player::shot(const Drawable* obj ) {
 }
 
 bool Player::collidedWith(const Drawable* obj ) {
-  if ( explosion ) return false;
+  if ( explosion ){
+    return false;
+  }
   if ( collisionStrategy->execute(*this, *obj) ) {
     return true;
   }
@@ -116,6 +126,14 @@ void Player::explode() {
     sprite.setScale( getScale() );
     explosion = new ExplodingSprite(sprite);
   }
+  collisions++;
+}
+
+bool Player::explosionDone() const{
+	if(explosion && explosion->chunkCount() == 0){
+		return true;
+	}
+	else return false;
 }
 
 void Player::shoot() { 
@@ -167,13 +185,16 @@ void Player::down()  {
 }
 
 void Player::update(Uint32 ticks) { 
-  if ( explosion ) {
+  if ( explosion) {
     explosion->update(ticks);
-    if ( explosion->chunkCount() == 0 ) {
+    if ( explosion->chunkCount() == 0 && collisions !=2 ) {
       delete explosion;
-      explosion = NULL;
+      explosion = nullptr;
     }
     return;
+  }
+  else if(explosionDone()){
+  	return;
   }
   
   advanceFrame(ticks);

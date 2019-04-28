@@ -9,6 +9,7 @@
 #include "viewport.h"
 #include "hud.h"
 #include "sound.h"
+#include "lights.h"
 
 class CollisionStrategy;
 class SmartSprite;
@@ -18,8 +19,8 @@ class Engine {
 public:
   Engine ();
   ~Engine ();
-  void play();
-
+  bool play();
+  
   Engine(const Engine&) = delete;
   Engine& operator=(const Engine&) = delete;
 private:
@@ -35,9 +36,11 @@ private:
   SubjectSprite* player;
   
   std::vector<Drawable*> dumb;
+  std::vector<Drawable*> dumbSmall;
   std::vector<SmartSprite*> smart;
   
   int currentStrategy;
+  int collisionCount;
   bool collision;
   std::vector<CollisionStrategy*> strategies;
   
@@ -46,6 +49,9 @@ private:
   
   bool makeVideo;
   SDLSound sound;
+  bool finish;
+  bool godMode;
+  //Lights lights;
 
   void draw() const;
   void update(Uint32);

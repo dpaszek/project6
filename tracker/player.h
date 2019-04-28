@@ -43,8 +43,11 @@ public:
   void down();
   void stop();
   
+  bool explosionDone() const;
+  
   unsigned int bulletCount() const {return bullets.bulletCount();}
   unsigned int freeCount() const {return bullets.freeCount();}
+  unsigned int explosionCount() const {return collisions;}
   
   Player& operator=(const Player&) = delete;
 
@@ -72,6 +75,7 @@ private:
   float timeSinceLastBullet;
   float bulletSpeed;
   multiBullets bullets;
+  int collisions;
   
   
   void advanceFrame(Uint32 ticks);

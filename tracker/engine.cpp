@@ -4,6 +4,7 @@
 #include <string>
 #include <random>
 #include <iomanip>
+#include <ctime>
 #include "sprite.h"
 #include "multisprite.h"
 #include "twowaysprite.h"
@@ -17,6 +18,10 @@
 
 Engine::~Engine() { 
   for(auto& t : dumb)
+  {
+  	delete t;
+  }
+  for(auto& t : dumbSmall)
   {
   	delete t;
   }
@@ -43,14 +48,19 @@ Engine::Engine() :
   viewport( Viewport::getInstance() ),
   player(new SubjectSprite("shark")),
   dumb(),
+  dumbSmall(),
   smart(),
   currentStrategy(0),
+  collisionCount(0),
   collision(false),
   strategies(),
   h(hud::getInstance()),
   hudState(true),
   makeVideo( false ),
-  sound()
+  sound(),
+  finish(false),
+  godMode(false)
+  //lights()
 {
   
   strategies.push_back( new PerPixelCollisionStrategy );
@@ -61,13 +71,29 @@ Engine::Engine() :
   int a = Gamedata::getInstance().getXmlInt("numberOfFish1");
   int b = Gamedata::getInstance().getXmlInt("numberOfStarfish");
   int c = Gamedata::getInstance().getXmlInt("numberOfTrash");
+  int d = Gamedata::getInstance().getXmlInt("numberOfSmallFish");
   dumb.reserve(a+b);
   smart.reserve(c);
+  dumbSmall.reserve(d);
   
   for(int i = 0; i < a; i++)
   {
   	dumb.push_back(new Sprite("fish1"));
   	dumb[i]->setScale(.4);
+  }
+  
+  for(int i = 0; i < d; i++)
+  {
+  	if(i % 2 == 0){
+  		dumbSmall.push_back(new Sprite("smallfish1"));
+  		dumbSmall[i]->setScale(.15);
+  	}
+  	else
+  	{
+  		dumbSmall.push_back(new Sprite("smallstarfish"));
+  		dumbSmall[i]->setScale(.15);
+  	}
+  	
   }
   
   for(int i = 0; i < b; i++)
@@ -96,8 +122,14 @@ Engine::Engine() :
 
 void Engine::draw() const {
   ocean.draw();
+
+  for(auto& t : dumbSmall)
+  {
+  	t->draw();
+  }
+    
   mount.draw();
-  h.draw(hudState, player->bulletCount(), player->freeCount());
+  h.draw(hudState, 2-collisionCount, smart.size());
   player->draw();
   
   //strategies[currentStrategy]->draw();
@@ -112,6 +144,42 @@ void Engine::draw() const {
   	t->draw();
   }
   
+  if(collisionCount == 2 && finish){
+  	SDL_Rect screen;
+  	screen.x = 0;
+  	screen.y = 0;
+  	screen.w = 900;
+  	screen.h = 680;
+  	
+  	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor( renderer, 255, 255, 255, 175);
+    SDL_RenderFillRect(renderer, &screen);
+    
+    io.writeText("You lost! Press R to restart the game or ESC/q to quit", 170, 300);
+    
+  	clock.pause();
+  	
+  }
+  else if(collisionCount != 2  && smart.size() == 0)
+  {
+    
+  	SDL_Rect screen;
+  	screen.x = 0;
+  	screen.y = 0;
+  	screen.w = 900;
+  	screen.h = 680;
+  	
+  	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor( renderer, 255, 255, 255, 175);
+    SDL_RenderFillRect(renderer, &screen);
+    
+    io.writeText("Congratulations! You won!", 320, 280);
+    io.writeText("Press R to restart the game or ESC/q to quit", 240, 340);
+
+    clock.pause();
+  }
+  
+  //lights.draw();
   viewport.draw();
   SDL_RenderPresent(renderer);
 }
@@ -143,20 +211,35 @@ void Engine::checkForCollisions() {
   }
   
   //Detecting fish/shark collisions
-  auto u = dumb.begin();
-  while (u != dumb.end()){
-  	if(player->collidedWith(*u)){
-  	  player->explode();
+  if(!godMode){
+  	auto u = dumb.begin();
+  	while (u != dumb.end()){
+  		if(player->collidedWith(*u)){
+  		  player->explode();
+  		  collisionCount++;
+  		}
+  		else ++u;
   	}
-  	else ++u;
   }
+  
 }
 
 void Engine::update(Uint32 ticks) {
   checkForCollisions();
   ocean.update();
+  
+  for(auto& t : dumbSmall)
+  {
+  	t->update(ticks);
+  }
+    
   mount.update();
   player->update(ticks);
+  
+  if(player->explosionDone())
+  {
+  	finish = true;
+  }
 
   
   for(auto& t : dumb)
@@ -168,12 +251,12 @@ void Engine::update(Uint32 ticks) {
   {
   	t->update(ticks);
   }
-  
+  //lights.update();
   viewport.update(); // always update viewport last
 }
 
 
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -204,6 +287,13 @@ void Engine::play() {
         }
         if ( keystate[SDL_SCANCODE_M] ) {
           currentStrategy = (1 + currentStrategy) % strategies.size();
+        }
+        if(keystate[SDL_SCANCODE_R]){
+        	clock.unpause();
+        	return true;
+        }
+        if(keystate[SDL_SCANCODE_G]){
+        	godMode = true;
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
@@ -245,4 +335,5 @@ void Engine::play() {
       }
     }
   }
+  return false;
 }
