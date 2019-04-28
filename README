@@ -1,14 +1,23 @@
-Name:
+Name: Drew Paszek
 
-Course:
+Course: CPSC 4160
 
-Clemson Email Address:
+Clemson Email Address: dpaszek@clemson.edu
 
 Final Project: #6
 
 Project due date: May 1st, 2019 at 8 AM
 
-Project description:
+Project description: For my project, I implemented a game in which the user must play
+as a shark and work to collect and dispel of any trash in the sea.  The shark is able
+to eat or shoot the trash to get rid of it.  In the process of cleaning up the sea, the 
+shark must avoid the large fish otherwise, the shark will explode because "fish are 
+friends, not food."  The user wins by collecting all of the trash but loses if the shark
+explodes twice from collisions with larger fish. The user can play in night mode where 
+the sea is dark, but a light follows the shark.  Additionally, the user can implement a 
+God mode. 
 
-The Pizzazz feature that I added:
-
+The Pizzazz feature that I added: For pizzazz, I implemented Painter's algorithm such
+that it appears as if there are fish in the background and can swim behind the rocks.
+Additionally, I implemented a light that follows the shark player, and the user has
+the ability to play with or without lights.  

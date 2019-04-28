@@ -53,7 +53,7 @@ void hud::draw(bool enable, int lives, int sprites) const
     	re.x = 0;
     	re.y = 0;
     	re.w = 370;
-    	re.h = 190;
+    	re.h = 210;
     	
     	SDL_SetRenderDrawColor( rend, r, g, b, a);
     	SDL_RenderDrawRect( rend, &re );
@@ -79,7 +79,9 @@ void hud::draw(bool enable, int lives, int sprites) const
   		writeText(font, msg5, 5, 130, col, rend);
   		string msg6 = "G - God Mode";
   		writeText(font, msg6, 5, 150, col, rend);
-  		writeText(font, fps, 5, 170, col, rend);
+  		string msg7 = "N - Night Mode";
+  		writeText(font, msg7, 5, 170, col, rend);
+  		writeText(font, fps, 5, 190, col, rend);
   		
   		
   		

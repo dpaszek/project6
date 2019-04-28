@@ -51,7 +51,8 @@ private:
   SDLSound sound;
   bool finish;
   bool godMode;
-  //Lights lights;
+  Lights lights;
+  bool night;
 
   void draw() const;
   void update(Uint32);

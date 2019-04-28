@@ -95,16 +95,16 @@
 <smallstarfish>
   <file>assets/starfish.png</file>
   <startLoc x="800" y="630"/>
-  <speedX>120</speedX>
-  <speedY>100</speedY>
+  <speedX>80</speedX>
+  <speedY>60</speedY>
   <transparency>true</transparency>
 </smallstarfish>
 
 <smallfish1>
   <file>assets/fish.png</file>
   <startLoc x="1200" y="400"/>
-  <speedX>-100</speedX>
-  <speedY>170</speedY>
+  <speedX>-80</speedX>
+  <speedY>110</speedY>
   <transparency>true</transparency>
 </smallfish1>
 

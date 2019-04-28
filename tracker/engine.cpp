@@ -59,8 +59,9 @@ Engine::Engine() :
   makeVideo( false ),
   sound(),
   finish(false),
-  godMode(false)
-  //lights()
+  godMode(false),
+  lights(),
+  night(true)
 {
   
   strategies.push_back( new PerPixelCollisionStrategy );
@@ -178,8 +179,10 @@ void Engine::draw() const {
 
     clock.pause();
   }
+  if(night){
+    lights.draw();
+  }
   
-  //lights.draw();
   viewport.draw();
   SDL_RenderPresent(renderer);
 }
@@ -251,7 +254,10 @@ void Engine::update(Uint32 ticks) {
   {
   	t->update(ticks);
   }
-  //lights.update();
+  if(night){
+    lights.update();
+  }
+  
   viewport.update(); // always update viewport last
 }
 
@@ -293,7 +299,14 @@ bool Engine::play() {
         	return true;
         }
         if(keystate[SDL_SCANCODE_G]){
-        	godMode = true;
+          if(godMode == 0) godMode = 1;
+          else
+          	godMode = 0;
+        }
+        if(keystate[SDL_SCANCODE_N]){
+          if(night == 0) night = 1;
+          else
+          	night = 0;
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
